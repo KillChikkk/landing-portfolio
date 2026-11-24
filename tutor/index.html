@@ -115,6 +115,10 @@
     label { font-weight: 500; font-size: 14px; display: grid; gap: 6px; }
     input, select, textarea { font: inherit; padding: 13px 15px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--navy); }
+    /* Своя стрелка вместо системной */
+    select { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 46px;
+      background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e0674a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 16px center / 18px; }
+    select:hover { border-color: var(--muted); }
     .form-note { font-size: 13px; color: var(--muted); }
     .form-ok { display: none; background: var(--accent-soft); padding: 14px; border-radius: 12px; font-weight: 500; }
 

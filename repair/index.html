@@ -117,6 +117,10 @@
     .order form { display: grid; gap: 12px; }
     .order input, .order select { font: inherit; padding: 15px 16px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--bg); width: 100%; }
     .order input:focus, .order select:focus { outline: none; border-color: var(--blue); }
+    /* Своя стрелка вместо системной */
+    .order select { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 46px;
+      background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232459ff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 16px center / 18px; }
+    .order select:hover { border-color: var(--muted); }
     .order input.error { border-color: #e5484d; }
     .ok { display: none; color: var(--green); font-weight: 700; }
 
