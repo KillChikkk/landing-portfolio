@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Портфолио: лендинги</title>
+  <meta name="description" content="Примеры лендингов: адаптивная вёрстка, формы заявок, калькуляторы.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #fafafa; --ink: #111; --muted: #666; --line: #e6e6e6; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Onest, system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.55; }
+    .container { width: min(1100px, 100% - 32px); margin-inline: auto; }
+    header { padding: 72px 0 40px; }
+    h1 { font-size: clamp(34px, 5vw, 56px); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; margin-bottom: 16px; }
+    header p { color: var(--muted); font-size: 18px; max-width: 620px; }
+    .skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .skills span { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 14px; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-bottom: 72px; }
+    .work { background: #fff; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
+    .work:hover { transform: translateY(-4px); box-shadow: 0 24px 40px -24px rgba(0,0,0,.3); }
+    .preview { height: 190px; padding: 22px; display: flex; flex-direction: column; justify-content: end; }
+    .preview b { font-size: 24px; line-height: 1.15; }
+    .tutor { background: #f7f4ef; color: #1f3a5f; font-family: Georgia, serif; border-bottom: 4px solid #e0674a; }
+    .coffee { background: radial-gradient(circle at 80% 30%, rgba(208,138,76,.5), transparent 50%), #1b1410; color: #f3e6d3; }
+    .repair { background: #2459ff; color: #fff; }
+    .repair b mark { background: #ffd23f; color: #0e1220; padding: 0 6px; border-radius: 6px; }
+    .info { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+    .info h2 { font-size: 20px; margin-bottom: 6px; }
+    .info p { color: var(--muted); font-size: 15px; margin-bottom: 16px; flex: 1; }
+    .info small { color: var(--muted); }
+    .info .open { font-weight: 700; margin-top: 12px; }
+    footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: 14px; }
+    @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } header { padding-top: 48px; } }
+  </style>
+</head>
+<body>
+  <header class="container">
+    <h1>Лендинги под ключ</h1>
+    <p>Делаю адаптивные одностраничные сайты: вёрстка, формы заявок, калькуляторы, привязка домена и SSL. Ниже собраны демо-работы, каждая сделана в своём стиле.</p>
+    <div class="skills">
+      <span>HTML / CSS / JavaScript</span>
+      <span>Адаптивная вёрстка</span>
+      <span>Формы и калькуляторы</span>
+      <span>Домен, DNS, SSL</span>
+      <span>Хостинг и VPS</span>
+    </div>
+  </header>
+
+  <main class="container grid">
+    <a class="work" href="tutor/index.html">
+      <div class="preview tutor"><b>Говорите на созвонах спокойно</b></div>
+      <div class="info">
+        <h2>Репетитор английского</h2>
+        <p>Лендинг частного преподавателя: тарифы, отзывы, частые вопросы и форма записи, в которую тариф подставляется сам.</p>
+        <small>Спокойный «доверительный» стиль · 7 экранов</small>
+        <span class="open">Открыть →</span>
+      </div>
+    </a>
+    <a class="work" href="coffee/index.html">
+      <div class="preview coffee"><b>Кофе, который обжарили на этой неделе</b></div>
+      <div class="info">
+        <h2>Кофейня с обжаркой</h2>
+        <p>Тёмная тема, анимированная SVG-чашка, меню с вкладками, а в часах работы подсвечивается сегодняшний день.</p>
+        <small>Атмосферный стиль · 6 экранов</small>
+        <span class="open">Открыть →</span>
+      </div>
+    </a>
+    <a class="work" href="repair/index.html">
+      <div class="preview repair"><b>Починим ноутбук <mark>за 1 день</mark></b></div>
+      <div class="info">
+        <h2>Сервис ремонта техники</h2>
+        <p>Калькулятор стоимости ремонта, маска ввода телефона, а выбор из калькулятора переносится в заявку.</p>
+        <small>Яркий «продающий» стиль · 7 экранов</small>
+        <span class="open">Открыть →</span>
+      </div>
+    </a>
+  </main>
+
+  <footer>
+    <div class="container">Все компании и люди на демо-страницах вымышлены.</div>
+  </footer>
+</body>
+</html>

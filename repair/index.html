@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Винтик — ремонт ноутбуков и телефонов</title>
+  <meta name="description" content="Ремонт ноутбуков, телефонов и планшетов. Бесплатная диагностика, гарантия до 12 месяцев, курьер.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --white: #ffffff;
+      --ink: #0e1220;
+      --muted: #5b6275;
+      --blue: #2459ff;
+      --blue-soft: #e5ecff;
+      --yellow: #ffd23f;
+      --green: #19a463;
+      --line: #e2e6ef;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: Onest, system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.55; }
+    h1, h2, h3 { font-weight: 800; line-height: 1.12; letter-spacing: -.02em; }
+    a { color: inherit; }
+    .container { width: min(1160px, 100% - 32px); margin-inline: auto; }
+    section { padding: 80px 0; }
+    .mono { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--blue); text-transform: uppercase; letter-spacing: .06em; }
+    .title { font-size: clamp(28px, 4vw, 44px); margin: 10px 0 14px; }
+    .muted { color: var(--muted); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 15px 26px; border-radius: 12px; background: var(--blue); color: #fff; font: inherit; font-weight: 700; text-decoration: none; border: 0; cursor: pointer; transition: transform .15s, background .15s; }
+    .btn:hover { transform: translateY(-2px); background: #1a47d6; }
+    .btn--yellow { background: var(--yellow); color: var(--ink); }
+    .btn--yellow:hover { background: #ffc800; }
+
+    /* Верхняя плашка и шапка */
+    .topbar { background: var(--ink); color: #c9cfdd; font-size: 14px; }
+    .topbar .container { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; flex-wrap: wrap; }
+    .topbar b { color: var(--yellow); }
+    header { background: var(--white); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 20px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 22px; text-decoration: none; }
+    .logo i { width: 36px; height: 36px; border-radius: 10px; background: var(--blue); display: grid; place-items: center; }
+    .nav nav { display: flex; gap: 26px; }
+    .nav nav a { text-decoration: none; color: var(--muted); font-weight: 500; }
+    .nav nav a:hover { color: var(--blue); }
+    .nav .call { text-align: right; text-decoration: none; }
+    .nav .call b { display: block; font-size: 18px; }
+    .nav .call small { color: var(--green); font-weight: 500; }
+
+    /* Первый экран */
+    .hero { padding: 64px 0 80px; }
+    .hero .container { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+    .hero h1 { font-size: clamp(36px, 5.4vw, 64px); margin: 16px 0 20px; }
+    .hero h1 mark { background: var(--yellow); padding: 0 8px; border-radius: 8px; white-space: nowrap; }
+    .hero .lead { font-size: 19px; color: var(--muted); max-width: 540px; margin-bottom: 30px; }
+    .checks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .checks span { background: var(--white); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; font-size: 14px; font-weight: 500; }
+    .checks span::before { content: "✓ "; color: var(--green); font-weight: 800; }
+
+    /* Калькулятор */
+    .calc { background: var(--white); border-radius: 22px; padding: 30px; box-shadow: 0 30px 60px -30px rgba(36, 89, 255, .35); border: 1px solid var(--line); }
+    .calc h2 { font-size: 24px; margin-bottom: 4px; }
+    .calc > p { color: var(--muted); margin-bottom: 22px; }
+    .field { margin-bottom: 16px; }
+    .field > span { display: block; font-weight: 700; font-size: 14px; margin-bottom: 8px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chips label { cursor: pointer; }
+    .chips input { position: absolute; opacity: 0; pointer-events: none; }
+    .chips label span { display: block; padding: 10px 16px; border-radius: 10px; border: 1.5px solid var(--line); font-weight: 500; font-size: 15px; transition: .15s; }
+    .chips input:checked + span { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 700; }
+    .chips input:focus-visible + span { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .result { background: var(--ink); color: #fff; border-radius: 14px; padding: 20px; margin: 22px 0 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .result small { color: #9aa3b8; display: block; }
+    .result b { font-size: 28px; }
+    .result .time { text-align: right; }
+    .result .time b { font-size: 18px; color: var(--yellow); }
+    .calc .btn { width: 100%; }
+
+    /* Услуги */
+    .services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 36px; }
+    .service { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; transition: border-color .15s, transform .15s; }
+    .service:hover { border-color: var(--blue); transform: translateY(-3px); }
+    .service .ico { font-size: 30px; margin-bottom: 16px; }
+    .service h3 { font-size: 19px; margin-bottom: 6px; }
+    .service p { color: var(--muted); font-size: 15px; margin-bottom: 14px; }
+    .service .from { font-weight: 700; color: var(--blue); }
+
+    /* Как работаем */
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 36px; }
+    .flow div { padding: 26px; border-radius: var(--radius); background: var(--white); border: 1px solid var(--line); position: relative; }
+    .flow .num { font-family: "JetBrains Mono", monospace; display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--blue); color: #fff; margin-bottom: 16px; }
+    .flow h3 { font-size: 18px; margin-bottom: 6px; }
+    .flow p { color: var(--muted); font-size: 15px; }
+
+    /* Гарантия */
+    .guarantee { background: var(--blue); color: #fff; border-radius: 28px; padding: 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .guarantee .mono { color: var(--yellow); }
+    .guarantee p { color: #d4defe; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .stats div { background: rgba(255,255,255,.1); border-radius: 14px; padding: 22px; }
+    .stats b { font-size: 34px; display: block; }
+    .stats span { color: #d4defe; font-size: 14px; }
+
+    /* Отзывы */
+    .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
+    .review { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
+    .stars { color: #f5a400; letter-spacing: 2px; margin-bottom: 10px; }
+    .review p { margin-bottom: 16px; }
+    .review small { color: var(--muted); }
+
+    /* Заявка */
+    .order .container { background: var(--white); border: 1px solid var(--line); border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .order form { display: grid; gap: 12px; }
+    .order input, .order select { font: inherit; padding: 15px 16px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--bg); width: 100%; }
+    .order input:focus, .order select:focus { outline: none; border-color: var(--blue); }
+    .order input.error { border-color: #e5484d; }
+    .ok { display: none; color: var(--green); font-weight: 700; }
+
+    footer { padding: 32px 0; color: var(--muted); font-size: 14px; }
+    footer .container { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+    @media (max-width: 1000px) {
+      .services, .flow { grid-template-columns: 1fr 1fr; }
+      .nav nav { display: none; }
+    }
+    @media (max-width: 860px) {
+      .hero .container, .guarantee, .order .container { grid-template-columns: 1fr; }
+      .reviews { grid-template-columns: 1fr; }
+      .guarantee, .order .container { padding: 32px 22px; border-radius: 22px; }
+    }
+    @media (max-width: 560px) {
+      section { padding: 56px 0; }
+      .hero { padding: 36px 0 56px; }
+      .services, .flow { grid-template-columns: 1fr; }
+      .nav .call small { display: none; }
+      .calc { padding: 22px 18px; }
+      .result .time { text-align: left; }
+      .stats b { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container">
+      <span>Диагностика <b>бесплатно</b>, даже если вы откажетесь от ремонта</span>
+      <span>Ежедневно 10:00 — 21:00</span>
+    </div>
+  </div>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="7"/><path d="M9 9l6 6M15 9l-6 6"/></svg></i>Винтик</a>
+      <nav>
+        <a href="#calc">Цены</a>
+        <a href="#services">Услуги</a>
+        <a href="#how">Как работаем</a>
+        <a href="#reviews">Отзывы</a>
+      </nav>
+      <a class="call" href="tel:+70000000000"><b>+7 (000) 000-00-00</b><small>● мастер на связи</small></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div>
+          <span class="mono">// сервис ремонта техники</span>
+          <h1>Починим ноутбук или телефон <mark>за 1 день</mark></h1>
+          <p class="lead">Меняем экраны, аккумуляторы и разъёмы, чистим после залития. Цену называем до начала ремонта, и она не меняется.</p>
+          <a class="btn btn--yellow" href="#order">Вызвать курьера бесплатно</a>
+          <div class="checks">
+            <span>Гарантия до 12 месяцев</span>
+            <span>Оригинальные запчасти</span>
+            <span>Ремонт при вас от 30 минут</span>
+          </div>
+        </div>
+
+        <div class="calc" id="calc">
+          <h2>Сколько стоит ремонт?</h2>
+          <p>Выберите устройство и поломку, и цена посчитается сразу</p>
+          <div class="field">
+            <span>Устройство</span>
+            <div class="chips" id="device">
+              <label><input type="radio" name="device" value="phone" checked><span>📱 Телефон</span></label>
+              <label><input type="radio" name="device" value="laptop"><span>💻 Ноутбук</span></label>
+              <label><input type="radio" name="device" value="tablet"><span>📟 Планшет</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <span>Что случилось</span>
+            <div class="chips" id="problem">
+              <label><input type="radio" name="problem" value="screen" checked><span>Разбит экран</span></label>
+              <label><input type="radio" name="problem" value="battery"><span>Быстро садится</span></label>
+              <label><input type="radio" name="problem" value="water"><span>Залили водой</span></label>
+              <label><input type="radio" name="problem" value="port"><span>Не заряжается</span></label>
+              <label><input type="radio" name="problem" value="slow"><span>Тормозит / греется</span></label>
+            </div>
+          </div>
+          <div class="result" aria-live="polite">
+            <div><small>Примерная стоимость</small><b id="price">—</b></div>
+            <div class="time"><small>Срок</small><b id="time">—</b></div>
+          </div>
+          <a class="btn" href="#order" id="calc-btn">Записаться на ремонт</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <span class="mono">// услуги</span>
+        <h2 class="title">Что мы ремонтируем</h2>
+        <p class="muted">Работаем с Apple, Samsung, Xiaomi, Huawei, ASUS, Lenovo, HP, Acer и другими брендами.</p>
+        <div class="services">
+          <div class="service"><div class="ico">🖥️</div><h3>Замена экрана</h3><p>Стекло, матрица, тачскрин</p><span class="from">от 1 900 ₽</span></div>
+          <div class="service"><div class="ico">🔋</div><h3>Аккумулятор</h3><p>Замена с калибровкой</p><span class="from">от 1 200 ₽</span></div>
+          <div class="service"><div class="ico">💧</div><h3>После залития</h3><p>Чистка платы в ультразвуке</p><span class="from">от 1 500 ₽</span></div>
+          <div class="service"><div class="ico">🔌</div><h3>Разъём зарядки</h3><p>Замена и пайка</p><span class="from">от 900 ₽</span></div>
+          <div class="service"><div class="ico">🌀</div><h3>Чистка ноутбука</h3><p>Пыль и новая термопаста</p><span class="from">от 1 500 ₽</span></div>
+          <div class="service"><div class="ico">⌨️</div><h3>Клавиатура</h3><p>Замена кнопок или целиком</p><span class="from">от 1 300 ₽</span></div>
+          <div class="service"><div class="ico">💾</div><h3>Апгрейд</h3><p>SSD, память, перенос системы</p><span class="from">от 800 ₽</span></div>
+          <div class="service"><div class="ico">🛟</div><h3>Восстановление данных</h3><p>С неисправных дисков</p><span class="from">от 2 500 ₽</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="container">
+        <span class="mono">// как работаем</span>
+        <h2 class="title">Четыре шага до работающей техники</h2>
+        <div class="flow">
+          <div><span class="num">01</span><h3>Заявка</h3><p>Позвоните или оставьте номер, мастер перезвонит за 10 минут.</p></div>
+          <div><span class="num">02</span><h3>Диагностика</h3><p>Бесплатно, 15–40 минут. Точная цена называется заранее.</p></div>
+          <div><span class="num">03</span><h3>Ремонт</h3><p>В большинстве случаев в тот же день, можно подождать в зоне ожидания.</p></div>
+          <div><span class="num">04</span><h3>Гарантия</h3><p>Выдаём гарантийный талон до 12 месяцев на работу и детали.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="guarantee">
+          <div>
+            <span class="mono">// гарантия</span>
+            <h2 class="title">Если поломка вернётся, переделаем бесплатно</h2>
+            <p>Каждая запчасть проходит проверку перед установкой, а после ремонта мы тестируем устройство при вас. Все условия прописаны в гарантийном талоне.</p>
+          </div>
+          <div class="stats">
+            <div><b>12 мес.</b><span>максимальная гарантия</span></div>
+            <div><b>94%</b><span>ремонтов за один день</span></div>
+            <div><b>7 лет</b><span>работаем в городе</span></div>
+            <div><b>0 ₽</b><span>за диагностику</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews">
+      <div class="container">
+        <span class="mono">// отзывы</span>
+        <h2 class="title">Что пишут клиенты</h2>
+        <div class="reviews">
+          <div class="review"><div class="stars">★★★★★</div><p>«Разбил экран утром, а к обеду уже забрал телефон. Цена совпала с калькулятором на сайте.»</p><small>Сергей, замена экрана</small></div>
+          <div class="review"><div class="stars">★★★★★</div><p>«Ноутбук грелся и выключался в играх. Почистили, поменяли термопасту, теперь тихий.»</p><small>Екатерина, чистка ноутбука</small></div>
+          <div class="review"><div class="stars">★★★★☆</div><p>«Пролил чай на клавиатуру. Спасли и ноутбук, и рабочие файлы, хоть и пришлось ждать два дня.»</p><small>Артём, после залития</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="order" id="order">
+      <div class="container">
+        <div>
+          <span class="mono">// заявка</span>
+          <h2 class="title">Оставьте номер, и мастер перезвонит</h2>
+          <p class="muted">Подскажем по телефону, что, скорее всего, сломалось, и сколько это будет стоить. Курьер по городу бесплатно.</p>
+        </div>
+        <form id="form" novalidate>
+          <input name="name" placeholder="Ваше имя">
+          <input name="phone" id="phone" type="tel" placeholder="+7 (___) ___-__-__" required>
+          <select name="what" id="what">
+            <option>Телефон: разбит экран</option>
+          </select>
+          <button class="btn" type="submit">Жду звонка</button>
+          <p class="ok" id="ok">✓ Заявка принята, перезвоним в течение 10 минут</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <span>© 2026 Сервисный центр «Винтик»</span>
+      <span>Демо-проект для портфолио: компания вымышленная</span>
+    </div>
+  </footer>
+
+  <script>
+    // Цены калькулятора: [от, до, срок]
+    const prices = {
+      phone:  { screen: [1900, 6500, '40 минут'], battery: [1200, 3500, '30 минут'], water: [1500, 5000, '1–2 дня'], port: [900, 2200, '1 час'], slow: [800, 1800, '1 час'] },
+      laptop: { screen: [3500, 12000, '1 день'], battery: [2500, 6000, '1 час'], water: [2500, 9000, '2–3 дня'], port: [1500, 3500, '1 день'], slow: [1500, 3000, '2 часа'] },
+      tablet: { screen: [2500, 9000, '1 день'], battery: [1800, 4500, '2 часа'], water: [2000, 6000, '1–2 дня'], port: [1200, 2800, '2 часа'], slow: [900, 2000, '1 час'] }
+    };
+    const names = {
+      phone: 'Телефон', laptop: 'Ноутбук', tablet: 'Планшет',
+      screen: 'разбит экран', battery: 'быстро садится', water: 'залили водой', port: 'не заряжается', slow: 'тормозит / греется'
+    };
+    const rub = n => n.toLocaleString('ru-RU') + ' ₽';
+
+    function updateCalc() {
+      const device = document.querySelector('[name=device]:checked').value;
+      const problem = document.querySelector('[name=problem]:checked').value;
+      const [from, to, time] = prices[device][problem];
+      document.getElementById('price').textContent = `${rub(from)} — ${rub(to)}`;
+      document.getElementById('time').textContent = time;
+      // Выбор из калькулятора переносится в форму заявки
+      document.getElementById('what').innerHTML = `<option>${names[device]}: ${names[problem]}</option><option>Другая поломка</option>`;
+    }
+    document.querySelectorAll('.calc input').forEach(input => input.addEventListener('change', updateCalc));
+    updateCalc();
+
+    // Маска телефона: +7 (999) 123-45-67
+    const phone = document.getElementById('phone');
+    phone.addEventListener('input', () => {
+      let d = phone.value.replace(/\D/g, '');
+      if (d.startsWith('8') || d.startsWith('7')) d = d.slice(1);
+      d = d.slice(0, 10);
+      let out = '+7';
+      if (d.length > 0) out += ' (' + d.slice(0, 3);
+      if (d.length > 3) out += ') ' + d.slice(3, 6);
+      if (d.length > 6) out += '-' + d.slice(6, 8);
+      if (d.length > 8) out += '-' + d.slice(8, 10);
+      phone.value = out;
+      phone.classList.remove('error');
+    });
+
+    // Отправка формы (демо: без сервера)
+    document.getElementById('form').addEventListener('submit', e => {
+      e.preventDefault();
+      if (phone.value.replace(/\D/g, '').length < 11) {
+        phone.classList.add('error');
+        phone.focus();
+        return;
+      }
+      e.target.reset();
+      updateCalc();
+      document.getElementById('ok').style.display = 'block';
+    });
+  </script>
+</body>
+</html>
